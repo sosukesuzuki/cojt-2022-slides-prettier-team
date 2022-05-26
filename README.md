@@ -1,11 +1,23 @@
-# Welcome to [Slidev](https://github.com/slidevjs/slidev)!
+# cojt-software-team-prettier-slide
 
-To start the slide show:
+COJT ソフトウェアコース 2022 年度 Prettier チーム発表スライド built with [slidev](sli.dev)
 
-- `npm install`
-- `npm run dev`
-- visit http://localhost:3030
+## 使い方
 
-Edit the [slides.md](./slides.md) to see the changes.
+localhost で見る
 
-Learn more about Slidev on [documentations](https://sli.dev/).
+```console
+npm run dev
+```
+
+HTML を吐く
+
+```console
+npm run build
+```
+
+PDF を吐く
+
+```console
+npm run export
+```
