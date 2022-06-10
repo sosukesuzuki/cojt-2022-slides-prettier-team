@@ -125,7 +125,49 @@ function foo() {
 
 ## `--cache` CLI オプション
 
-- https://github.com/prettier/prettier/pull/12800
+https://github.com/prettier/prettier/pull/12800
+
+- Rome Formatter とか dprint を見るとみんな速いフォーマッターに興味あるっぽい
+- 需要があるなら速くしたほうがいいけど、Prettier の実行速度を腕力で速くするのはきつい(JSだしパーサーがそもそも遅いし)
+- なので飛び道具的に速度を上げるためのキャッシュ
+- 一回フォーマットしてから変更がないファイルはスキップする
+- あと GW 暇だった
+
+---
+
+# Prettier 2.7
+
+## `--cache` CLI オプション
+
+- ESLint の `--cache` オプションを参考にした
+- `file-entry-cache` というライブラリを使ってタイムスタンプ等のファイルのメタデータに基づいてキャッシュ情報を取得して、`./node_modules/.cache/prettier/.prettier-cache` というファイルにしまっておく
+- 次のフォーマットでは、キャッシュを参照し、スキップできそうならスキップする
+- キャッシュを確認してスキップできるかを判断する処理は 0ms ~ 1ms くらいで完了するので全体をフォーマットするときはだいぶ速くなりそう(普通にファイルをフォーマットすると、言語やファイルサイズにもよるけど n * 100ms とかの単位で実行時間がかかる)
+
+---
+
+# Prettier 2.7
+
+## TypeScript 4.7 対応
+
+- 2022年5月24日 Microsoft から TypeScript の新しいバージョン 4.7 がリリースされた
+  - https://devblogs.microsoft.com/typescript/announcing-typescript-4-7/
+- TypeScript 4.7 には新しい構文が３つ実装されている
+  - Instantiation expression
+  - `extends` constraints on `infer`
+  - Optional variance
+- Prettier はこれらの構文を適切にフォーマットできるように対応する必要がある
+
+---
+
+# Prettier 2.7
+
+## TypeScript 4.7 対応
+
+- まず、Prettier 本体ではなく Prettier が依存している構文解析器(パーサー)を新しい構文に対応させる必要がある
+- Prettier は TypeScript のパーサーを２種類持っており、オプションで切り替えることができる
+  - `--parser=babel-ts` (Babel (https://github.com/babel/babel) のパーサー)
+  - `--parser=typescript` (typescript-eslint (https://github.com/typescript-eslint/typescript-eslint) のパーサー)
 
 ---
 
@@ -135,9 +177,39 @@ function foo() {
 
 **Babel:**
 
-- https://github.com/babel/babel/pull/14476
+- `extends` constraints on `infer` 構文の実装
+  - https://github.com/babel/babel/pull/14476
+
+こういうやつ
+
+```ts
+type X3<T> = T extends [infer U extends number] ? MustBeNumber<U> : never;
+```
+
+---
+
+# Prettier 2.7
+
+## TypeScript 4.7 対応
 
 **typescript-eslint:**
+
+バグ報告
+
+- 三項演算子のパーサーのバグ
+  - https://github.com/microsoft/TypeScript/issues/48733
+- `api-extractor` というツールが TypeScript 4.7 上で動作しない
+  - https://github.com/microsoft/rushstack/issues/3349
+
+---
+
+# Prettier 2.7
+
+## TypeScript 4.7 対応
+
+**typescript-eslint:**
+
+新しい構文の対応に必要なこと全部
 
 - https://github.com/typescript-eslint/typescript-eslint/pull/4938
 - https://github.com/typescript-eslint/typescript-eslint/pull/4830
@@ -150,6 +222,8 @@ function foo() {
 ## TypeScript 4.7 対応
 
 **Prettier:**
+
+3つの構文 × 2つのパーサー全部対応した
 
 - https://github.com/prettier/prettier/pull/12896
 - https://github.com/prettier/prettier/pull/12897
