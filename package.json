@@ -1,5 +1,5 @@
 {
-  "name": "cojt-software-team-prettier-slide",
+  "name": "cojt-2022-slides-prettier-team",
   "private": true,
   "scripts": {
     "build": "slidev build",

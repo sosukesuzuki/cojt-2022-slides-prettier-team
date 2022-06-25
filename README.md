@@ -1,4 +1,4 @@
-# cojt-software-team-prettier-slide
+# cojt-2022-slides-prettier-team
 
 COJT ソフトウェアコース 2022 年度 Prettier チーム発表スライド built with [slidev](sli.dev)
 
