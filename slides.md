@@ -1,6 +1,4 @@
 ---
-# try also 'default' to start simple
-theme: apple-basic
 highlighter: shiki
 lineNumbers: false
 ---
@@ -115,34 +113,136 @@ function foo() {
 
 ---
 
-# Prettier 2.7
+# リリースブログの執筆
 
-リリースブログの執筆
+https://prettier.io/blog/2022/06/14/2.7.0.html
 
----
-
-# Prettier 2.7
-
-## `--cache` CLI オプション
-
-https://github.com/prettier/prettier/pull/12800
-
-- Rome Formatter とか dprint を見るとみんな速いフォーマッターに興味あるっぽい
-- 需要があるなら速くしたほうがいいけど、Prettier の実行速度を腕力で速くするのはきつい(JSだしパーサーがそもそも遅いし)
-- なので飛び道具的に速度を上げるためのキャッシュ
-- 一回フォーマットしてから変更がないファイルはスキップする
-- あと GW 暇だった
+<img class="border border-solid border-gray-500" src="/assets/images/prettier-blog-screenshot.png">
 
 ---
 
-# Prettier 2.7
+# `--cache` CLI オプション
 
-## `--cache` CLI オプション
+```bash
+prettier src --write --cache
+```
 
+有効にすると、直前のフォーマットから変更のないファイルはフォーマットされなくなる。
+CLI での実行の速度を大幅に改善する機能。
+
+---
+layout: center
+---
+
+
+なぜこんな機能を？
+
+---
+
+<img class="border border-solid border-gray-500" src="/assets/images/rome-blog.png">
+
+https://www.publickey1.jp/blog/22/javascripttypescriptrome_formatterrustprettier10.html
+
+---
+layout: center
+---
+
+Twitter とかを眺めるとみんな盛り上がっている
+
+---
+
+---
+layout: center
+---
+
+おれ「みんな速いフォーマッター好きなんだ...」
+
+---
+layout: center
+---
+
+---
+
+# `--cache` CLI オプション
+
+## なぜキャッシュなのか
+
+Prettier の実行速度を改善する方法をいくつか検討した
+
+- 効率的なデータ構造・アルゴリズムを使う
+- マルチスレッド
+- キャッシュ
+
+---
+
+# `--cache` CLI オプション
+
+## 1. 効率的なデータ構造・アルゴリズム
+
+不採用
+
+- Invest: 高い, Return: 低い
+
+<img class="border border-solid border-gray-500" src="/assets/images/optimization01.png">
+
+---
+
+# `--cache` CLI オプション
+
+## パフォーマンス改善案2. マルチスレッド 
+
+不採用
+
+- Invest: 高い, Return: (多分)高い
+
+<img class="border border-solid border-gray-500" src="/assets/images/optimization02.png">
+
+---
+
+# `--cache` CLI オプション
+
+## パフォーマンス改善案3. キャッシュ 
+
+採用
+
+- Invest: 低い, Return: 高い
+
+<img class="border border-solid border-gray-500" src="/assets/images/optimization03.png">
+
+---
+
+# `--cache` CLI オプション
+
+実装
+
+- https://github.com/prettier/prettier/pull/12800
 - ESLint の `--cache` オプションを参考にした
-- `file-entry-cache` というライブラリを使ってタイムスタンプ等のファイルのメタデータに基づいてキャッシュ情報を取得して、`./node_modules/.cache/prettier/.prettier-cache` というファイルにしまっておく
-- 次のフォーマットでは、キャッシュを参照し、スキップできそうならスキップする
-- キャッシュを確認してスキップできるかを判断する処理は 0ms ~ 1ms くらいで完了するので全体をフォーマットするときはだいぶ速くなりそう(普通にファイルをフォーマットすると、言語やファイルサイズにもよるけど n * 100ms とかの単位で実行時間がかかる)
+  - https://eslint.org/docs/latest/user-guide/command-line-interface#caching
+- `file-entry-cache` というライブラリを使ってファイルが変更されたかどうかを判断し分岐させるだけ
+- キャッシュファイルは `./node_modules/.cache/prettier/.prettier-cache` に保存される
+  - これは nyc や ava のキャッシュファイルを保存する場所と同じ
+
+---
+
+# `--cache` CLI オプション
+
+キャッシュキーは以下
+
+- Node.js のバージョン
+- Prettier のバージョン
+- Prettier のオプション
+- (`--cache-strategy` が `content` の場合) ファイルの内容
+- (`--cache-strategy` が `metadata` の場合) タイムスタンプ等のファイルのメタデータ
+
+---
+
+# `--cache-strategy` オプション
+
+- `content` or `metadata`
+- キャッシュキーとして、ファイルの内容を使うか、メタデータを使うか選べる
+- デフォルトでは `content`
+- `content` は CI で使えるが遅い、`metadata` は CI で使えないが速い
+- 用途に合わせてお好みでどうぞ
 
 ---
 
