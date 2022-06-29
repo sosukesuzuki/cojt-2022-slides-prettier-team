@@ -331,11 +331,212 @@ type X3<T> = T extends [infer U extends number] ? MustBeNumber<U> : never;
 
 # Prettier 2.7
 
-## バグ修正
+## Test Callee の特殊なフォーマットを Playwright に対応させた
 
-<!-- by hosokawa -->
+https://github.com/prettier/prettier/pull/12779
 
-- https://github.com/prettier/prettier/pull/12706
-- https://github.com/prettier/prettier/pull/12779
-- https://github.com/prettier/prettier/pull/12860
-- https://github.com/prettier/prettier/pull/12930
+<div class="flex gap-10">
+
+<div>
+
+**Test Callee として認識される**と強調した部分が自然な英文に見えて嬉しい。
+
+```js {1-2}
+describe("I am very very very very very very hungry", () => {
+  test("there is a big big big big big big bread", () => {
+    // ...
+  });
+});
+```
+
+</div>
+
+<div>
+
+**Test Callee として認識されない**と行の長さが長い場合、折り返される。（`--print-width` を 40 に設定）
+
+```js {1-2|3-4}
+_describe(
+  "I am very very very very very very hungry",
+  () => {
+    _test(
+      "there is a big big big big big big big bread",
+      () => {
+        // ...
+      }
+    );
+  }
+);
+```
+
+</div>
+
+</div>
+
+これに Playwright の `test.describe.parallel.only` なども対応するようにした
+
+---
+
+# Prettier 2.7
+
+## `as` が `:` と出力されてしまうバグを修正
+
+https://github.com/prettier/prettier/pull/12706
+
+[Babel Parser のバグ](https://github.com/babel/babel/issues/14498)により
+
+<div class="flex gap-10">
+
+<div>
+
+入力
+
+```ts
+[x as any] = x;
+```
+
+</div>
+
+<div>
+
+修正前のフォーマット
+
+```ts
+[x: any] = x;
+```
+
+</div>
+
+<div>
+
+修正後のフォーマット
+
+```ts
+[x as any] = x;
+```
+
+</div>
+
+</div>
+
+
+※現在は Babel の該当バグが修正されたので、この PR も Revert された。
+
+---
+
+# Prettier 2.7
+
+## Export のコメントのフォーマットに一貫性がない挙動を修正 
+
+https://github.com/prettier/prettier/pull/12860
+
+<div class="flex gap-10">
+
+<div>
+
+入力
+
+```ts
+export {
+  foo,
+  
+  bar as  // comment
+		 baz,
+}
+
+import {
+  foo,
+  
+  bar as  // comment
+		 baz,
+} from 'foo'
+```
+
+</div>
+
+<div>
+
+修正前のフォーマット
+
+```ts
+export {
+  foo,
+  bar as baz, // comment
+};
+
+import {
+  foo,
+  // comment
+  bar as baz,
+} from "foo";
+```
+
+</div>
+
+<div>
+
+修正後のフォーマット
+
+```ts
+export {
+  foo,
+  // comment
+  bar as baz,
+};
+
+import {
+  foo,
+  // comment
+  bar as baz,
+} from "foo";
+```
+
+</div>
+
+--- 
+
+# Prettier 2.7
+
+## Enum の Computed Properties が消えるバグを修正 
+
+https://github.com/prettier/prettier/pull/12930
+
+<div class="flex gap-10">
+
+<div>
+
+入力
+
+```ts
+enum A {
+  [i++],
+}
+```
+
+</div>
+
+<div>
+
+修正前のフォーマット
+
+```ts
+enum A {
+  i++,
+}
+```
+
+</div>
+
+<div>
+
+修正後のフォーマット
+
+```ts
+enum A {
+  [i++],
+}
+```
+
+</div>
+
+</div>
