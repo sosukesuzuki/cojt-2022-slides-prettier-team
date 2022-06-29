@@ -150,16 +150,10 @@ layout: center
 Twitter とかを眺めるとみんな盛り上がっている
 
 ---
-
----
 layout: center
 ---
 
 おれ「みんな速いフォーマッター好きなんだ...」
-
----
-layout: center
----
 
 ---
 
