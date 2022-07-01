@@ -328,10 +328,14 @@ type X3<T> = T extends [infer U extends number] ? MustBeNumber<U> : never;
 - https://github.com/prettier/prettier/pull/12959
 
 ---
+layout: center
+---
 
-# Prettier 2.7
+# たくさんのバグ修正
 
-## Test Callee の特殊なフォーマットを Playwright に対応させた
+---
+
+# Test Callee の特殊なフォーマットを Playwright に対応させた
 
 https://github.com/prettier/prettier/pull/12779
 
@@ -377,9 +381,7 @@ _describe(
 
 ---
 
-# Prettier 2.7
-
-## `as` が `:` と出力されてしまうバグを修正
+# `as` が `:` と出力されてしまうバグを修正
 
 https://github.com/prettier/prettier/pull/12706
 
@@ -424,9 +426,7 @@ https://github.com/prettier/prettier/pull/12706
 
 ---
 
-# Prettier 2.7
-
-## Export のコメントのフォーマットに一貫性がない挙動を修正 
+# Export のコメントのフォーマットに一貫性がない挙動を修正
 
 https://github.com/prettier/prettier/pull/12860
 
@@ -495,9 +495,7 @@ import {
 
 --- 
 
-# Prettier 2.7
-
-## Enum の Computed Properties が消えるバグを修正 
+# Enum の Computed Properties が消えるバグを修正
 
 https://github.com/prettier/prettier/pull/12930
 
