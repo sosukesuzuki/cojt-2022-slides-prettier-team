@@ -240,9 +240,7 @@ Prettier の実行速度を改善する方法をいくつか検討した
 
 ---
 
-# Prettier 2.7
-
-## TypeScript 4.7 対応
+# TypeScript 4.7 対応
 
 - 2022年5月24日 Microsoft から TypeScript の新しいバージョン 4.7 がリリースされた
   - https://devblogs.microsoft.com/typescript/announcing-typescript-4-7/
@@ -254,9 +252,7 @@ Prettier の実行速度を改善する方法をいくつか検討した
 
 ---
 
-# Prettier 2.7
-
-## TypeScript 4.7 対応
+# TypeScript 4.7 対応
 
 - まず、Prettier 本体ではなく Prettier が依存している構文解析器(パーサー)を新しい構文に対応させる必要がある
 - Prettier は TypeScript のパーサーを２種類持っており、オプションで切り替えることができる
@@ -265,9 +261,7 @@ Prettier の実行速度を改善する方法をいくつか検討した
 
 ---
 
-# Prettier 2.7
-
-## TypeScript 4.7 対応
+# TypeScript 4.7 対応
 
 **Babel:**
 
@@ -282,9 +276,7 @@ type X3<T> = T extends [infer U extends number] ? MustBeNumber<U> : never;
 
 ---
 
-# Prettier 2.7
-
-## TypeScript 4.7 対応
+# TypeScript 4.7 対応
 
 **typescript-eslint:**
 
@@ -297,9 +289,7 @@ type X3<T> = T extends [infer U extends number] ? MustBeNumber<U> : never;
 
 ---
 
-# Prettier 2.7
-
-## TypeScript 4.7 対応
+# TypeScript 4.7 対応
 
 **typescript-eslint:**
 
@@ -311,9 +301,7 @@ type X3<T> = T extends [infer U extends number] ? MustBeNumber<U> : never;
 
 ---
 
-# Prettier 2.7
-
-## TypeScript 4.7 対応
+# TypeScript 4.7 対応
 
 **Prettier:**
 
