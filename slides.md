@@ -171,7 +171,7 @@ Prettier の実行速度を改善する方法をいくつか検討した
 
 # `--cache` CLI オプション
 
-## 1. 効率的なデータ構造・アルゴリズム
+## パフォーマンス改善案1. 効率的なデータ構造・アルゴリズム
 
 不採用
 
@@ -220,7 +220,7 @@ Prettier の実行速度を改善する方法をいくつか検討した
 
 # `--cache` CLI オプション
 
-キャッシュキーは以下
+## キャッシュキーは以下
 
 - Node.js のバージョン
 - Prettier のバージョン
@@ -237,89 +237,6 @@ Prettier の実行速度を改善する方法をいくつか検討した
 - デフォルトでは `content`
 - `content` は CI で使えるが遅い、`metadata` は CI で使えないが速い
 - 用途に合わせてお好みでどうぞ
-
----
-
-# TypeScript 4.7 対応
-
-- 2022年5月24日 Microsoft から TypeScript の新しいバージョン 4.7 がリリースされた
-  - https://devblogs.microsoft.com/typescript/announcing-typescript-4-7/
-- TypeScript 4.7 には新しい構文が３つ実装されている
-  - Instantiation expression
-  - `extends` constraints on `infer`
-  - Optional variance
-- Prettier はこれらの構文を適切にフォーマットできるように対応する必要がある
-
----
-
-# TypeScript 4.7 対応
-
-- まず、Prettier 本体ではなく Prettier が依存している構文解析器(パーサー)を新しい構文に対応させる必要がある
-- Prettier は TypeScript のパーサーを２種類持っており、オプションで切り替えることができる
-  - `--parser=babel-ts` (Babel (https://github.com/babel/babel) のパーサー)
-  - `--parser=typescript` (typescript-eslint (https://github.com/typescript-eslint/typescript-eslint) のパーサー)
-
----
-
-# TypeScript 4.7 対応
-
-**Babel:**
-
-- `extends` constraints on `infer` 構文の実装
-  - https://github.com/babel/babel/pull/14476
-
-こういうやつ
-
-```ts
-type X3<T> = T extends [infer U extends number] ? MustBeNumber<U> : never;
-```
-
----
-
-# TypeScript 4.7 対応
-
-**typescript-eslint:**
-
-バグ報告
-
-- 三項演算子のパーサーのバグ
-  - https://github.com/microsoft/TypeScript/issues/48733
-- `api-extractor` というツールが TypeScript 4.7 上で動作しない
-  - https://github.com/microsoft/rushstack/issues/3349
-
----
-
-# TypeScript 4.7 対応
-
-**typescript-eslint:**
-
-新しい構文の対応に必要なこと全部
-
-- https://github.com/typescript-eslint/typescript-eslint/pull/4938
-- https://github.com/typescript-eslint/typescript-eslint/pull/4830
-- https://github.com/typescript-eslint/typescript-eslint/pull/4831
-
----
-
-# TypeScript 4.7 対応
-
-**Prettier:**
-
-3つの構文 × 2つのパーサー全部対応した
-
-- https://github.com/prettier/prettier/pull/12896
-- https://github.com/prettier/prettier/pull/12897
-- https://github.com/prettier/prettier/pull/12898
-- https://github.com/prettier/prettier/pull/12900
-- https://github.com/prettier/prettier/pull/12921
-- https://github.com/prettier/prettier/pull/12924
-- https://github.com/prettier/prettier/pull/12959
-
----
-layout: center
----
-
-# たくさんのバグ修正
 
 ---
 
@@ -414,7 +331,7 @@ https://github.com/prettier/prettier/pull/12706
 
 ---
 
-# Export のコメントのフォーマットに一貫性がない挙動を修正
+# `export` の一貫性のない挙動を修正
 
 https://github.com/prettier/prettier/pull/12860
 
@@ -431,7 +348,6 @@ export {
   bar as  // comment
 		 baz,
 }
-
 import {
   foo,
   
@@ -451,7 +367,6 @@ export {
   foo,
   bar as baz, // comment
 };
-
 import {
   foo,
   // comment
@@ -471,7 +386,6 @@ export {
   // comment
   bar as baz,
 };
-
 import {
   foo,
   // comment
@@ -481,9 +395,11 @@ import {
 
 </div>
 
---- 
+</div>
 
-# Enum の Computed Properties が消えるバグを修正
+---
+
+# Enum の Computed Properties が消えるバグを修正 
 
 https://github.com/prettier/prettier/pull/12930
 
